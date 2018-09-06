@@ -6,7 +6,7 @@ import {
   incrementAsync,
   decrement,
   decrementAsync
-} from '../../actions'
+} from './actions'
 
 const Counter = props => (
   <div>
@@ -30,14 +30,13 @@ const Counter = props => (
 )
 
 const mapStateToProps = state => ({
-  count: state.counterReducer.count,
-  isIncrementing: state.counterReducer.isIncrementing,
-  isDecrementing: state.counterReducer.isDecrementing
+  count: state.counterState.count,
+  isIncrementing: state.counterState.isIncrementing,
+  isDecrementing: state.counterState.isDecrementing
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
+  bindActionCreators({
       increment,
       incrementAsync,
       decrement,
