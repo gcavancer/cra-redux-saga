@@ -1,34 +1,49 @@
 import { delay } from 'redux-saga';
 import { put, takeEvery, all } from 'redux-saga/effects';
+import { 
+    increment,
+    incrementAsyncRequested,
+    incrementAsyncFailure,
+    decrement,
+    decrementAsyncRequested
+ } from '../containers/counter/actions'
 
 export const loadSaga = () => {
     console.log('Sagas!')
 }
 
-export function* incrementAsync() {
-    yield put({ type: 'INCREMENT_ASYNC_REQUESTED' })
-    yield delay(1000)
-    yield put({ type: 'INCREMENT' })
+export function* incrementAsyncSaga() {
+    try {
+        yield put(incrementAsyncRequested())
+        yield delay(1000)
+        yield put(increment())
+        // Simulate an error.
+        throw 'Increment async failed: broken!'
+    }
+    catch (err) {
+        yield put(incrementAsyncFailure(err));
+    }
+
 }
 
-export function* decrementAsync() {
-    yield put({ type: 'DECREMENT_ASYNC_REQUESTED' })
+export function* decrementAsyncSaga() {
+    yield put(decrementAsyncRequested())
     yield delay(1000)
-    yield put({ type: 'DECREMENT' })
+    yield put(decrement())
 }
 
 export function* watchIncrementAsync() {
-    yield takeEvery('INCREMENT_ASYNC', incrementAsync)
+    yield takeEvery('INCREMENT_ASYNC', incrementAsyncSaga)
 }
 
 export function* watchDecrementAsync() {
-    yield takeEvery('DECREMENT_ASYNC', decrementAsync)
+    yield takeEvery('DECREMENT_ASYNC', decrementAsyncSaga)
 }
 
 export default function* rootSaga() {
     yield all([
-      loadSaga(),
-      watchIncrementAsync(),
-      watchDecrementAsync()
+        loadSaga(),
+        watchIncrementAsync(),
+        watchDecrementAsync()
     ])
 }

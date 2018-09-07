@@ -32,7 +32,8 @@ const Counter = props => (
 const mapStateToProps = state => ({
   count: state.counterState.count,
   isIncrementing: state.counterState.isIncrementing,
-  isDecrementing: state.counterState.isDecrementing
+  isDecrementing: state.counterState.isDecrementing,
+  message: state.counterState.message
 });
 
 const mapDispatchToProps = dispatch =>
