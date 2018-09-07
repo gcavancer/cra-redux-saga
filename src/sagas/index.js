@@ -23,7 +23,6 @@ export function* incrementAsyncSaga() {
     catch (err) {
         yield put(incrementAsyncFailure(err));
     }
-
 }
 
 export function* decrementAsyncSaga() {
